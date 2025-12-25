@@ -32,7 +32,7 @@ class Camera:
             return self.getBackgroundColor(r)
 
 
-        firstIntersect = intersects[0] # simple for now just one intersection assumed
+        firstIntersect = intersects[0] # simple for now just one shape intersection assumed
         return firstIntersect[1].getColor(firstIntersect[0]) # shape intersect in the intersection point
 
         #firstIntersect = min(intersects, TODO: read documentation

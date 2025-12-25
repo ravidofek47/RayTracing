@@ -34,6 +34,8 @@ class Object:
 
     def getColor(self, intersection):
         #for now, simple, just return the shapes color
-        return self.color
+        unitNormal = (intersection-self.center).unit()
+        colorNormal = Vec3((unitNormal.X+1)/2, (unitNormal.Y+1)/2, (unitNormal.Z+1)/2)
+        return colorNormal
 
 
