@@ -3,7 +3,7 @@ from PIL import Image
 
 from Camera import Camera
 from ViewPort import Viewport
-from object import Object
+from sphere import Sphere
 from vec3 import Vec3
 color = Vec3
 def write_color(out, pixel_color):
@@ -29,7 +29,7 @@ def main():
     viewPort = Viewport(aspect_ratio=1.7778, image_width=400, viewport_height=2, depth=-1)
 
     objects =[]
-    objects.append(Object(Vec3(0,0, -1), 0.5, color(1,0, 0)))
+    objects.append(Sphere(Vec3(0,0, -1), 0.5))
 
     camera = Camera(viewPort, Vec3(0,0,0), objects)
     # Image

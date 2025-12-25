@@ -1,11 +1,12 @@
 from ray import Ray
 from vec3 import Vec3
-from object import Object
+from sphere import Sphere
+from hitable import Hittable, HitRecord
 from ViewPort import Viewport
 color = Vec3
 class Camera:
 
-    def __init__(self, viewport : Viewport, loc : Vec3, objects ): # objects is : Object[]
+    def __init__(self, viewport : Viewport, loc : Vec3, objects : list[Hittable] ): # objects is : Hittable[]
         self.viewport = viewport
         self.loc = loc
         self.objects = objects
@@ -18,24 +19,21 @@ class Camera:
         return self.ray_color(ray)
 
     def ray_color(self, r: Ray):
-        intersects = []
+        hitRecords = []
         for obj in self.objects:
-            intersect1, intersect2 = obj.intersects(r)
+            intersect = obj.hit(r, -1000, 1000) # TODO : find tmin and tmax
 
-            if not intersect1 is None:
-                if self.loc.dist(intersect1) < self.loc.dist(intersect2): # closer intersection should count
-                    intersects.append([intersect1, obj])
-                else:
-                    intersects.append([intersect2, obj])
+            if intersect[0] == True:
+                hitRecords.append(intersect[1]) # TODO : remove obj here and computs the color from camera
 
-        if len(intersects) == 0:
+        if len(hitRecords) == 0:
             return self.getBackgroundColor(r)
 
 
-        firstIntersect = intersects[0] # simple for now just one shape intersection assumed
-        return firstIntersect[1].getColor(firstIntersect[0]) # shape intersect in the intersection point
+        firstHit= hitRecords[0] # simple for now just one shape intersection assumed
+        return self.getColor(firstHit) # shape intersect in the intersection point
 
-        #firstIntersect = min(intersects, TODO: read documentation
+        #firstIntersect = min(hitRecords, TODO: read documentation
 
 
     def getBackgroundColor(self, r:Ray):
@@ -46,3 +44,9 @@ class Camera:
         blue = Vec3(0.5, 0.7, 1)
         blendedValue = (1 - y) * white + y * blue
         return blendedValue
+
+    def getColor(self, hitRecord : HitRecord):
+        # for now, simple, just return the shapes color
+        unitNormal = hitRecord.normal
+        colorNormal = Vec3((unitNormal.X + 1) / 2, (unitNormal.Y + 1) / 2, (unitNormal.Z + 1) / 2)
+        return colorNormal
