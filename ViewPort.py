@@ -25,7 +25,8 @@ class Viewport:
         topY = self.image_height/2 * self.verDir * self.verSpace
         x = self.horDir * (self.horSpace * (col-self.image_width/2)) # so that the camera is in the middle of the viewport
         y = topY - (self.verDir * (self.verSpace * row))
-        return x + y + self.depth
+        # all according to the scetch in the pdf
+        return x + y + Vec3(0,0,self.depth)
         # return x =  + Vu * (deltaU * col)
         # return y =  + Vv * (deltav * row)
 
