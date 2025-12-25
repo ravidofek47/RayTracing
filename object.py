@@ -18,17 +18,18 @@ class Object:
         r = self.r
 
         a = d.dot(d)
-        b = (-2 * d).dot(C - Q)
+        #b = (-2 * d).dot(C - Q)
         c = (C - Q).dot(C - Q) - r * r
 
+        h=d.dot(C-Q)
 
-        disc = b*b - 4*a*c
+        disc = h*h - a*c
         if disc <0:
             return None, None
 
         root = sqrt(disc)
-        t1 = (-b + root)/(2*a)
-        t2 = (-b - root)/(2*a)
+        t1 = (h + root)/a
+        t2 = (h - root)/a
 
         return ray.at(t1), ray.at(t2)
 
