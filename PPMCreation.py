@@ -3,6 +3,7 @@ from PIL import Image
 
 from Camera import Camera
 from ViewPort import Viewport
+from hittable_list import hittable_list
 from sphere import Sphere
 from vec3 import Vec3
 color = Vec3
@@ -30,8 +31,12 @@ def main():
 
     objects =[]
     objects.append(Sphere(Vec3(0,0, -1), 0.5))
+    objects.append(Sphere(Vec3(0,-100.5,-1), 100))
 
-    camera = Camera(viewPort, Vec3(0,0,0), objects)
+
+    world = hittable_list(objects)
+
+    camera = Camera(viewPort, Vec3(0,0,0))
     # Image
     image_width = viewPort.getImageWidth()
     image_height = viewPort.getImageHeight()
@@ -50,7 +55,7 @@ def main():
                 flush=True,
             )
             for col in range(image_width):
-                pixel_color = camera.getPixelColor(col, row)
+                pixel_color = camera.getPixelColor(col, row, world)
                 write_color(out, pixel_color)
     print("\rDone.                 ", file=sys.stdout)
     img = Image.open(sys.argv[1])

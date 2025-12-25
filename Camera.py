@@ -6,34 +6,24 @@ from ViewPort import Viewport
 color = Vec3
 class Camera:
 
-    def __init__(self, viewport : Viewport, loc : Vec3, objects : list[Hittable] ): # objects is : Hittable[]
+    def __init__(self, viewport : Viewport, loc : Vec3): # objects is : Hittable[]
         self.viewport = viewport
         self.loc = loc
-        self.objects = objects
 
-    def getPixelColor(self, col, row):
+    def getPixelColor(self, col, row, world):
         pixelLoc = self.viewport.getPixelLoc(col, row)
         # ray is the sub of loc and slef.loc
         rayDirection = pixelLoc - self.loc
         ray = Ray(self.loc, rayDirection)
-        return self.ray_color(ray)
+        return self.ray_color(ray, world)
 
-    def ray_color(self, r: Ray):
-        hitRecords = []
-        for obj in self.objects:
-            intersect = obj.hit(r, -1000, 1000) # TODO : find tmin and tmax
+    def ray_color(self, r: Ray, world: Hittable):
 
-            if intersect[0] == True:
-                hitRecords.append(intersect[1]) # TODO : remove obj here and computs the color from camera
+        firstHit = world.hit(r, 0, 1000) # TODO : determine the range
 
-        if len(hitRecords) == 0:
+        if(firstHit[0] == False): # did not hit anyhtinn
             return self.getBackgroundColor(r)
-
-
-        firstHit= hitRecords[0] # simple for now just one shape intersection assumed
-        return self.getColor(firstHit) # shape intersect in the intersection point
-
-        #firstIntersect = min(hitRecords, TODO: read documentation
+        return self.getColor(firstHit[1]) # shape intersect in the intersection point
 
 
     def getBackgroundColor(self, r:Ray):

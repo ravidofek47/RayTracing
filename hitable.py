@@ -19,3 +19,4 @@ class Hittable(ABC):
     def hit(self, r: Ray, t_min, t_max) -> Tuple[bool, Union[HitRecord, None]]:
         pass
 
+
