@@ -1,5 +1,5 @@
 from vec3 import Vec3
-
+import random
 
 class Viewport:
     def __init__(self, aspect_ratio=1.7778, image_width=400, viewport_height=2, depth=1): # how is viewport_height 2
@@ -26,10 +26,19 @@ class Viewport:
         x = self.horDir * (self.horSpace * (col-self.image_width/2)) # so that the camera is in the middle of the viewport
         y = topY - (self.verDir * (self.verSpace * row))
         # all according to the scetch in the pdf
-        return x + y + Vec3(0,0,self.depth)
+
+        xSample, ySample = self.sample_square(x,y)
+
+        return xSample + ySample + Vec3(0,0,self.depth)
         # return x =  + Vu * (deltaU * col)
         # return y =  + Vv * (deltav * row)
 
+    def sample_square(self, x, y):
+        rndY = random.random()-0.5
+        rndX = random.random()-0.5
+        xSample = x + self.horDir*rndX*self.horSpace
+        ySample = y + self.verDir*rndY*self.verSpace
+        return xSample, ySample
 
     def getMiddle(self):
         x = self.horDir * (self.horSpace * self.image_width/2)

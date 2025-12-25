@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Tuple, Union
 
+from interval import Interval
+
 from ray import Ray
 from vec3 import Vec3
 
@@ -16,7 +18,7 @@ class HitRecord(object):
 
 class Hittable(ABC):
     @abstractmethod
-    def hit(self, r: Ray, t_min, t_max) -> Tuple[bool, Union[HitRecord, None]]:
+    def hit(self, r: Ray, interval: Interval) -> Tuple[bool, Union[HitRecord, None]]:
         pass
 
 

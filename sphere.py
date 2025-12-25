@@ -1,5 +1,7 @@
 from typing import Tuple, Union, override
 
+from interval import Interval
+
 from hitable import HitRecord
 from vec3 import Vec3
 from ray import Ray
@@ -12,7 +14,7 @@ class Sphere:
 
     @override
     # returns the intersection coordinates of the shape and the ray
-    def hit(self, ray : Ray, tmin, tmax) -> Tuple[bool, Union[HitRecord, None]]:
+    def hit(self, ray : Ray, interval:Interval) -> Tuple[bool, Union[HitRecord, None]]:
 
         t1,t2 = self.getIntersectionTs(ray)
         if t1 is None: # no intersections
@@ -20,15 +22,15 @@ class Sphere:
 
         tfinal = None
 
-        if tmin < t1 < tmax and tmin < t2 < tmax:
+        if interval.contains(t1) and interval.contains(t2):
             if abs(t1) < abs(t2): #TODO : make sure this is the intention
                 tfinal = t1
             else:
                 tfinal = t2
 
-        elif tmin < t1 < tmax: # only t1 is valid
+        elif interval.contains(t1):
             tfinal = t1
-        elif tmin < t2 < tmax:
+        elif interval.contains(t2):
             tfinal = t2
 
         if tfinal is None: # no intersections in the tmin tmax

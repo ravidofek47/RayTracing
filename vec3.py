@@ -122,3 +122,9 @@ class Vec3:
     def dist(self, other):
         sub = self-other
         return sub.length()
+
+    @staticmethod
+    def random_unit():
+        p = np.random.normal(size=3)  # random 3D vector ~ N(0,1)
+        p /= np.linalg.norm(p)
+        return Vec3.from_array(p)
