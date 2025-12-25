@@ -3,7 +3,7 @@ import math
 from vec3 import Vec3
 from interval import Interval
 def write_color(out, pixel_color: Vec3):
-    interval = Interval(0,1)
+    interval: Interval = Interval(0,1)
     r = math.sqrt(interval.clamp(pixel_color.x()))
     g = math.sqrt(interval.clamp(pixel_color.y()))
     b = math.sqrt(interval.clamp(pixel_color.z()))

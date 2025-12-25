@@ -118,3 +118,7 @@ class Vec3:
     def dot(self, other) -> float:
         if isinstance(other, Vec3):
             return self.e.dot(other.e)
+
+    def dist(self, other):
+        sub = self-other
+        return sub.length()
